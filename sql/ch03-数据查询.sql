@@ -4,8 +4,7 @@ select 100 / 2 ;
 # 了解
 select 100 div 2 ;
 
-select 100 > 200
-
+select 100 > 200;
 
 
 # 1.查询所有字段的数据
@@ -28,7 +27,7 @@ select * from 学生信息 limit 5;
 # 4.条件查询 - select * from 表名 where 条件
 # 注意：条件一般结合逻辑运算和关系运算进行操作
 select * from 学生信息
-where 性别='女' and 家庭住址='江西南昌'
+where 性别='女' and 家庭住址='江西南昌';
 
 # 5.between and 的使用
 select * from 成绩信息;
@@ -129,7 +128,7 @@ select sum(分数) as 总分,
     min(分数) as 最低分,
     max(分数) as 最高分,
     count(学生编号) as 人数
-from 成绩信息
+from 成绩信息;
 
 # 13.分组查询 - 难点 - group by 字段
 # 原理：把分组字段中，相同的数据划分为同一组
@@ -139,6 +138,13 @@ from 成绩信息
 # 第二：要么字段使用聚合函数
 
 select 性别,count(学号) as 人数 from 学生信息
+group by 性别
+having 性别='女' ;
+
+# where 分组之前条件 - where用于普通查询条件
+# having 分组之后条件 - having一定是结合分组查询使用
+select 性别,count(学号) as 人数 from 学生信息
+    where 性别='女'
 group by 性别 ;
 
 -- with rollup ： 分组汇总
@@ -154,7 +160,92 @@ select coalesce(性别,'总人数') as 名称,
 from 学生信息 group by 性别
 with rollup ;
 
+# 14.distinct - 去重
+# 14.1）针对一个字段进行去重
+select distinct 民族 from 学生信息;
 
+# 14.2）针对多个字段进行去重
+select distinct 性别,民族 from 学生信息;
+
+# 15.分页查询
+# select * from 表名 limit (当前页-1) * 每页记录数,每页记录数
+select * from 学生信息 limit 0,3;
+/*
+public List<Product> queryAllByPager(int cp,int pageCount) {
+
+    String sql = "select * from 学生信息 limit ?,?" ;
+
+    psmt.setInt(1, (cp-1) * pageCount) ;
+    pstmt.setInt(2,pageCount) ;
+}
+*/
+
+# 16.case when的使用
+CREATE TABLE test_user
+(
+    id int primary key auto_increment ,
+    name varchar(50) not null ,
+    gender tinyint default 1 ,
+    country_code smallint
+) engine=InnoDb default charset=utf8;
+
+insert into test_user(name,gender,country_code) values ('清风',1,100) ;
+insert into test_user(name,gender,country_code) values ('玄武',2,100) ;
+insert into test_user(name,gender,country_code) values ('Kobe',1,110) ;
+insert into test_user(name,gender,country_code) values ('John Snow',1,200) ;
+
+select  * from test_user;
+
+select id,name,gender,
+       (
+           case gender
+               when 1 then '男'
+               when 2 then '女'
+               else '未知'
+               end
+           ) as 性别,
+       country_code
+from test_user;
+
+# 17.行转列
+create table grade
+(
+    id int(10) not null auto_increment ,
+    user_name varchar(20),
+    course varchar(20),
+    score float ,
+    primary key(id)
+) engine=InnoDb default charset=utf8 ;
+
+insert into grade(user_name,course,score) values ('张三','数学',34) ;
+insert into grade(user_name,course,score) values ('张三','语文',58) ;
+insert into grade(user_name,course,score) values ('张三','英语',58) ;
+insert into grade(user_name,course,score) values ('李四','数学',45) ;
+insert into grade(user_name,course,score) values ('李四','语文',87) ;
+insert into grade(user_name,course,score) values ('李四','英语',45) ;
+insert into grade(user_name,course,score) values ('王五','数学',76) ;
+insert into grade(user_name,course,score) values ('王五','语文',34) ;
+insert into grade(user_name,course,score) values ('王五','英语',89) ;
+
+select * from grade;
+
+SELECT user_name,
+       max(case course when '数学' then score else 0 end) 数学,
+       max(case course when '语文' then score else 0 end) 语文,
+       max(case course when '英语' then score else 0 end) 英语
+from grade
+GROUP BY user_name
+having user_name='张三' ;
+
+/*
+要点：
+  第一：找到要合并分组的字段(user_name)，如三个张三要合并成一行
+  第二：找到要行转列的字段(course)，如语文、数学、英语
+  第三：进行判断，输出要展示的数据(score)
+      判断是否为语文、数学、英语，从而输出具体的score
+  第四：符合分组查询的要求
+  第五：根据需求进行过滤
+*/
 
 
 
