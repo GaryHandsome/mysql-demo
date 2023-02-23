@@ -131,7 +131,28 @@ select sum(分数) as 总分,
     count(学生编号) as 人数
 from 成绩信息
 
-# 13.分组查询 - 难点
+# 13.分组查询 - 难点 - group by 字段
+# 原理：把分组字段中，相同的数据划分为同一组
+# 分组查询一般结合聚合函数使用 - 先分组，后统计(聚合函数)
+# 注意：分组查询后，select 查询的内容必须满足以下两个条件:
+# 第一：要么是分组字段
+# 第二：要么字段使用聚合函数
+
+select 性别,count(学号) as 人数 from 学生信息
+group by 性别 ;
+
+-- with rollup ： 分组汇总
+select 性别,count(学号) as 人数 from 学生信息
+group by 性别
+with rollup ;
+
+select coalesce(null,'我好') ;
+
+# 改进 - 统计和汇总
+select coalesce(性别,'总人数') as 名称,
+       count(学号) as 人数
+from 学生信息 group by 性别
+with rollup ;
 
 
 
