@@ -74,9 +74,6 @@ create table 学生表
     教师编号 int
 );
 
-
-
-
 insert into 老师表(姓名,性别,专业) values ('张三','男','计算机');
 insert into 老师表(姓名,性别,专业) values ('李四','男','日语');
 insert into 老师表(姓名,性别,专业) values ('王五','女','英语');
@@ -94,6 +91,12 @@ values ('学生三','男',3.5,70,2);
 insert into 学生表(姓名,性别,身高,学分,教师编号)
 values ('学生四','女',4.5,80,2);
 
+insert into 学生表(姓名,性别,身高,学分)
+values ('学生五','女',5.5,90);
+
+insert into 学生表(姓名,性别,身高,学分)
+values ('张三','男',1.8,100);
+
 select * from 教师表;
 select * from 学生表;
 # 3.1、左外连接
@@ -104,7 +107,6 @@ select * from 学生表;
 # 如果不能连接（无数据），则右表以 null 值表示
 
 # 好处：能保证其中一张表的数据全部查询出来
-
 select * from 教师表 left join 学生表 on 编号=教师编号;
 
 
@@ -116,7 +118,89 @@ select * from 学生表 right join 教师表 on 编号=教师编号;
 # 注意：在MySQL中，不支持full实现完全外连接
 # 解决：union
 # select 字段集合 from 表1 full [outer] join 表2 on 条件
+select * from 教师表 left join 学生表 on 编号=教师编号
+-- 合并数据，并且去重
+union
+select * from 教师表 right join 学生表 on 编号=教师编号;
 
 
+select * from 教师表 left join 学生表 on 编号=教师编号
+-- 合并数据，但没有去重
+union all
+select * from 教师表 right join 学生表 on 编号=教师编号;
+
+-- 4.union:把多个查询的结果合并在一起（横向合并）
+# ● 合并的要求：
+# 1）两个查询的字段个数必须相同;
+# 2）字段类型也要相同或兼容；
+# ● union代表去重，union all代表不去重
+
+
+select 姓名,性别 from 教师表
+union
+select 姓名,性别 from 学生表;
+
+
+select 姓名,性别 from 教师表
+union all
+select 姓名,性别 from 学生表;
+
+
+-- 还有第三个要求：合并的字段意义相同或相符
+select 姓名,性别 from 教师表
+union
+select 性别,姓名 from 学生表;
+
+-- 2)对合并的数据进行再次过滤
+select  * from
+(
+    -- 1)合并相关数据
+    select 姓名,性别 from 教师表
+    union all
+    select 姓名,性别 from 学生表
+) as t
+where t.性别='女' ;
+
+
+# 5.多表连接的七种情况
+# 1）左外连接
+select * from 教师表 as t1
+    left join 学生表 as t2 on t1.编号=t2.教师编号 ;
+
+# 2）右外连接
+select * from 教师表 as t1
+    right join 学生表 as t2 on t1.编号=t2.教师编号 ;
+
+# 3）内连接
+select * from 教师表 as t1
+    inner join 学生表 as t2 on t1.编号=t2.教师编号 ;
+
+
+# 4）
+select * from 教师表 as t1
+    left join 学生表 as t2 on t1.编号=t2.教师编号
+where t2.学号 is null ;
+
+# 5）
+select * from 教师表 as t1
+    right join 学生表 as t2 on t1.编号=t2.教师编号
+where t1.编号 <=> null ;
+
+# 6）完全外连接
+select * from 教师表 as t1
+    left join 学生表 as t2 on t1.编号=t2.教师编号
+union
+select * from 教师表 as t1
+    right join 学生表 as t2 on t1.编号=t2.教师编号
+where t1.编号 <=> null ;
+
+# 7）
+select * from 教师表 as t1
+    left join 学生表 as t2 on t1.编号=t2.教师编号
+where t2.学号 is null
+union
+select * from 教师表 as t1
+    right join 学生表 as t2 on t1.编号=t2.教师编号
+where t1.编号 <=> null ;
 
 
