@@ -1,5 +1,5 @@
 ###############################
-# 多表查询 & 子查询
+# 多表查询
 ###############################
 
 /*
@@ -151,7 +151,7 @@ select 姓名,性别 from 教师表
 union
 select 性别,姓名 from 学生表;
 
--- 2)对合并的数据进行再次过滤
+-- 2)对合并的数据进行再次过滤 - 子查询在from后面，需要指定别名
 select  * from
 (
     -- 1)合并相关数据
@@ -204,3 +204,21 @@ select * from 教师表 as t1
 where t1.编号 <=> null ;
 
 
+-- 6.交叉连接 - 不需要指定连接条件
+select * from 教师表 ;
+select * from 学生表 ;
+
+select * from 教师表,学生表 ;
+select * from 教师表 join 学生表;
+
+
+-- 7.自连接 - 某张表自己连接自己
+-- 语法一
+-- select * from 表1 as 别名 join 表1 as 别名 on 条件
+select * from 教师表 as t1
+    join 教师表 as t2 on t1.编号=t2.编号;
+
+-- 语法二
+-- select * from 表1 as 别名, 表1 as 别名 where 条件
+select * from 教师表 as t1,教师表 as t2
+         where t1.编号=t2.编号;
