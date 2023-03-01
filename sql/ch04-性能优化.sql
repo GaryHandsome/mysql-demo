@@ -90,8 +90,12 @@ set profiling=1;
 # 4.查看所有语句的耗时
 show profiles;
 
-# 根据 query_id 查看具体某个查询的详情
+# 5.根据 query_id 查看具体某个查询的详情
 # show profile for query query_id;
 show profile for query 93;
+
+# 6.查看指定query_id的SQL语句CPU的使用情况
+# 语法： show profile cpu for query query_id;
+show profile cpu for query 93;
 
 
