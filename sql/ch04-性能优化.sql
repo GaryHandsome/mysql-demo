@@ -71,6 +71,27 @@ slow_query_log=1
 long_query_time=2
 
 # 第三：重启MySQL
+
+# 第四：测试
+select * from titles,employees limit 200000000,10;
 */
+
+
+# 三、profile - 查看 SQL 语句时间都耗费在哪里
+# 1.查询是否支持 - 通过 have_profiling 变量，查看当前 MySQL 是否支持
+select @@have_profiling;
+
+# 2.查看是否开启
+select @@profiling;
+
+# 3.开启 profile 功能
+set profiling=1;
+
+# 4.查看所有语句的耗时
+show profiles;
+
+# 根据 query_id 查看具体某个查询的详情
+# show profile for query query_id;
+show profile for query 93;
 
 
