@@ -329,7 +329,7 @@ where t1.degree<
 select tname,depart from teacher;
 
 
--- 35  查询所有未讲课的教师的tname和depart。
+-- 35、查询所有未讲课的教师的tname和depart。
 select * from teacher;
 select * from course ;
 
