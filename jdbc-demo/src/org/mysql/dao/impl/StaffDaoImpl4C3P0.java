@@ -50,7 +50,7 @@ public class StaffDaoImpl4C3P0 implements StaffDao {
 
         // 第二：填充数据，并执行
         try {
-            return qr.execute(sql,new BeanListHandler<Staff>(Staff.class));
+            return qr.query(sql,new BeanListHandler<Staff>(Staff.class));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
