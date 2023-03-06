@@ -8,7 +8,7 @@ import org.mysql.entity.Staff;
  * @Date 2023-03-06
  * @Author zqx
  */
-public class MainTest {
+public class MainTest01 {
     public static void main(String[] args) {
 
         StaffDao staffDao = new StaffDaoImpl();

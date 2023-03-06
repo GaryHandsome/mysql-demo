@@ -81,4 +81,17 @@ public class Staff {
     public void setAddTime(Date addTime) {
         this.addTime = addTime;
     }
+
+
+    @Override
+    public String toString() {
+        return "Staff{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", phone='" + phone + '\'' +
+                ", pos='" + pos + '\'' +
+                ", addTime=" + addTime +
+                '}';
+    }
 }

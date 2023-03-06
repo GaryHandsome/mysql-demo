@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * StaffDAO接口的实现类
+ * StaffDAO接口的实现类 - 基于原生的JDBC实现数据库的增、删、改、查操作
  *
  * @Date 2023-03-06
  * @Author zqx
