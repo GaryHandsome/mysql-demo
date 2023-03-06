@@ -1,9 +1,9 @@
-package org.mysql;
+package org.mysql.util;
 
 import java.sql.*;
 
 /**
- * 使用 JDBC 连接 MySQL数据库
+ * 使用 JDBC 连接 MySQL 数据库
  *
  * @Date 2023-03-06
  * @Author zqx

@@ -12,3 +12,6 @@ create table `staffs`(
      `add_time` timestamp not null default current_timestamp comment '入职时间'
 ) comment '员工记录表';
 # 提示：需要自行下载连接MySQL的驱动程序
+
+select *
+from staffs;
