@@ -2,6 +2,7 @@
 # 同时，实现数据表的增、删、改、查操作
 drop database if exists jdbc_test;
 create database if not exists jdbc_test ;
+use jdbc_test;
 create table `staffs`(
      `id` int(10) primary key auto_increment,
      `name` varchar(24) not null default '' comment '姓名',
